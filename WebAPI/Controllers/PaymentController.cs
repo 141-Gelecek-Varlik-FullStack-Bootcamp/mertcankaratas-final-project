@@ -41,5 +41,33 @@ namespace WebAPI.Controllers
         {
             return Ok("id'li Payment");
         }
+
+        [HttpGet("getbybillingdate")]
+        public IActionResult GetPaymentByBillingDate()
+        {
+            return Ok("billing date Payment");
+        }
+
+        [HttpGet("getbyduedate")]
+        public IActionResult GetPaymentByDueDate()
+        {
+            return Ok("due date Payment");
+        }
+        
+        [HttpGet("getbypastduedate")]
+        public IActionResult GetPaymentByPastDueDate()
+        {
+            return Ok("past due date Payment");
+        }
+
+
+        [HttpGet("getbysuccesspayment")]
+        public IActionResult GetPaymentBySuccessPayment()
+        {
+            return Ok("Success Payment");
+        }
+
+
+
     }
 }

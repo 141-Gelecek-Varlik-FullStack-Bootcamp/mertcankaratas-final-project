@@ -41,5 +41,18 @@ namespace WebAPI.Controllers
         {
             return Ok("id'li Apartment");
         }
+
+        [HttpGet("getbyblank")]
+        public IActionResult GetApartmentByBlank()
+        {
+            return Ok(" blank Apartment getir");
+        }
+
+        [HttpGet("getbyblankactive")]
+        public IActionResult GetApartmentByBlankActive()
+        {
+            return Ok(" blank and active Apartment getir");
+        }
+
     }
 }
