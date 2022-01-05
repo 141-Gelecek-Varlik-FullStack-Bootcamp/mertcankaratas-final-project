@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Abstract;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,35 +13,67 @@ namespace WebAPI.Controllers
     [ApiController]
     public class DuesController : ControllerBase
     {
-        [HttpPost("add")]
-        public IActionResult DuesAdd()
+        private readonly IDuesService _duesService;
+
+        public DuesController(IDuesService duesService)
         {
-            return Ok("Dues ekle");
+            _duesService = duesService;
+        }
+
+        [HttpPost("add")]
+        public IActionResult DuesAdd(Dues dues)
+        {
+            var result = _duesService.Add(dues);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPut("update")]
-        public IActionResult DuesUpdate()
+        public IActionResult DuesUpdate(Dues dues)
         {
-            return Ok("Dues güncelle");
+            var result = _duesService.Add(dues);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult DuesDelete()
+        public IActionResult DuesDelete(Dues dues)
         {
-            return Ok("Dues sil");
+            var result = _duesService.Add(dues);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAllDues()
         {
-            return Ok("tüm Dues'ları getir");
+            var result = _duesService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
 
         [HttpGet("getbyid")]
-        public IActionResult GetDuesById()
+        public IActionResult GetDuesById(int id)
         {
-            return Ok("id'li Dues");
+            var result = _duesService.Get(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

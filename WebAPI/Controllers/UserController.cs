@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Abstract;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,35 +13,76 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost("add")]
-        public IActionResult UserAdd()
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
         {
-            return Ok("Kullanıcı ekle");
+            _userService = userService;
+        }
+
+        [HttpPost("add")]
+        public IActionResult UserAdd(User user)
+        {
+            var result = _userService.Add(user);
+            if (result.Success)
+            {
+
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpPut("update")]
-        public IActionResult UserUpdate()
+        public IActionResult UserUpdate(User user)
         {
-            return Ok("Kullanıcı güncelle");
+            var result = _userService.Update(user);
+            if (result.Success)
+            {
+
+                return Ok(result);
+
+            }
+
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult UserDelete()
+        public IActionResult UserDelete(User user)
         {
-            return Ok("Kullanıcı sil");
+            var result = _userService.Delete(user);
+            if (result.Success)
+            {
+
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAllUser()
         {
-            return Ok("tüm kullanıcıları getir");
+            var result = _userService.GetAll();
+            if (result.Success)
+            {
+
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
 
         [HttpGet("getbyid")]
-        public IActionResult GetUserById()
+        public IActionResult GetUserById(int id)
         {
-            return Ok("id'li kullanıcı");
+
+            var result = _userService.Get(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
 

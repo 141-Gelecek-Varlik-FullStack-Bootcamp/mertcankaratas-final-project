@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Abstract;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,35 +13,72 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ApartmentController : ControllerBase
     {
-        [HttpPost("add")]
-        public IActionResult ApartmentAdd()
+        private readonly IApartmentService _apartmentService;
+
+        public ApartmentController(IApartmentService apartmentService)
         {
-            return Ok("Apartment ekle");
+            _apartmentService = apartmentService;
+        }
+
+        [HttpPost("add")]
+        public IActionResult ApartmentAdd(Apartment apartment)
+        {
+            var result = _apartmentService.Add(apartment);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpPut("update")]
-        public IActionResult ApartmentUpdate()
+        public IActionResult ApartmentUpdate(Apartment apartment)
         {
-            return Ok("Apartment güncelle");
+            var result = _apartmentService.Update(apartment);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult ApartmentDelete()
+        public IActionResult ApartmentDelete(Apartment apartment)
         {
-            return Ok("Apartment sil");
+            var result = _apartmentService.Update(apartment);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAllApartment()
         {
-            return Ok("tüm Apartment'ları getir");
+            var result = _apartmentService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
 
         [HttpGet("getbyid")]
-        public IActionResult GetApartmentById()
+        public IActionResult GetApartmentById(int id)
         {
-            return Ok("id'li Apartment");
+            var result = _apartmentService.Get(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpGet("getbyblank")]

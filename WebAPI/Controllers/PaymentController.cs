@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Abstract;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,35 +13,67 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        [HttpPost("add")]
-        public IActionResult PaymentAdd()
+        private readonly IPaymentService _paymentService;
+
+        public PaymentController(IPaymentService paymentService)
         {
-            return Ok("Payment ekle");
+            _paymentService = paymentService;
+        }
+
+        [HttpPost("add")]
+        public IActionResult PaymentAdd(Payment payment)
+        {
+            var result = _paymentService.Add(payment);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPut("update")]
-        public IActionResult PaymentUpdate()
+        public IActionResult PaymentUpdate(Payment payment)
         {
-            return Ok("Payment güncelle");
+            var result = _paymentService.Update(payment);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult PaymentDelete()
+        public IActionResult PaymentDelete(Payment payment)
         {
+            var result = _paymentService.Delete(payment);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
             return Ok("Payment sil");
         }
 
         [HttpGet("getall")]
         public IActionResult GetAllPayment()
         {
-            return Ok("tüm Payment'ları getir");
+            var result = _paymentService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
 
         [HttpGet("getbyid")]
-        public IActionResult GetPaymentById()
+        public IActionResult GetPaymentById(int id)
         {
-            return Ok("id'li Payment");
+            var result = _paymentService.Get(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("getbybillingdate")]
@@ -53,7 +87,7 @@ namespace WebAPI.Controllers
         {
             return Ok("due date Payment");
         }
-        
+
         [HttpGet("getbypastduedate")]
         public IActionResult GetPaymentByPastDueDate()
         {
