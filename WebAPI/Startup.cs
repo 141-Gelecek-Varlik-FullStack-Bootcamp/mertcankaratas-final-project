@@ -40,6 +40,7 @@ namespace WebAPI
             services.AddTransient<IInvoiceTypeDal, InvoiceTypeDal>();
             services.AddTransient<IDuesService, DuesManager>();
             services.AddTransient<IDuesDal, DuesDal>();
+            services.AddTransient<IAuthService, AuthManager>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
