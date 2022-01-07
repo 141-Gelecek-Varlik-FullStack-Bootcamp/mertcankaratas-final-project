@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constant;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,14 +20,18 @@ namespace Business.Concrete
         {
             _duesDal = duesDal;
         }
+
+        [ValidationAspect(typeof(DuesValidator))]
         public IResult Add(Dues dues)
         {
+            dues.IDate = DateTime.Now;
             _duesDal.Add(dues);
             return new SuccessResult(Messages.DuesAdded);
         }
 
         public IResult Delete(Dues dues)
         {
+            dues.UDate = DateTime.Now;
             _duesDal.Delete(dues);
             return new SuccessResult(Messages.DuesDeleted);
         }

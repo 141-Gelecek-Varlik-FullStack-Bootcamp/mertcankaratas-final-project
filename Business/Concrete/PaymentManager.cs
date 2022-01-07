@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constant;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,14 +20,17 @@ namespace Business.Concrete
         {
             _paymentDal = paymentDal;
         }
+        [ValidationAspect(typeof(InvoiceTypeValidator))]
         public IResult Add(Payment payment)
         {
+            payment.IDate = DateTime.Now;
             _paymentDal.Add(payment);
             return new SuccessResult(Messages.PaymentAdded);
         }
 
         public IResult Delete(Payment payment)
         {
+            payment.UDate = DateTime.Now;
             _paymentDal.Delete(payment);
             return new SuccessResult(Messages.PaymentDeleted);
 
@@ -43,6 +48,7 @@ namespace Business.Concrete
 
         public IResult Update(Payment payment)
         {
+            payment.UDate = DateTime.Now;
             _paymentDal.Update(payment);
             return new SuccessResult(Messages.PaymentDeleted);
         }

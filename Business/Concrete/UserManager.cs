@@ -26,13 +26,14 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
-           
+            user.IDate = DateTime.Now;
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
         public IResult Delete(User user)
         {
+            user.UDate = DateTime.Now;
             _userDal.Delete(user);
             return new SuccessResult(Messages.UserDeleted);
         }
@@ -60,6 +61,7 @@ namespace Business.Concrete
 
         public IResult Update(User user)
         {
+            user.UDate = DateTime.Now;
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
