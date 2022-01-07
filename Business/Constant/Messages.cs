@@ -45,6 +45,8 @@ namespace Business.Constant
         public static string PaymentUpdated = "Ödeme Güncellendi";
         public static string PaymentListed = "Ödemeler Listelendi";
 
+      
+
 
         public static string DuesAdded = "Aidat Eklendi.";
         public static string DuesDeleted = "Aidat Silindi.";
@@ -55,6 +57,9 @@ namespace Business.Constant
         public static string ApartmentDeleted = "Daire Silindi.";
         public static string ApartmentUpdated = "Daire Güncellendi";
         public static string ApartmentListed = "Daire Listelendi";
+        public static string ActiveApartmentNotFound = "Aktif Daire Bulunmamaktadır";
+        public static string BlankApartmentNotFound = "Aktif Daire Bulunmamaktadır";
+        public static string BlankAndActiveApartmentNotFound = "Aktif ve Boş  Daire Bulunmamaktadır";
 
         public static string InvoiceTypeAdded = "Fatura tipi Eklendi.";
         public static string InvoiceTypeDeleted = "Fatura tipi Silindi.";

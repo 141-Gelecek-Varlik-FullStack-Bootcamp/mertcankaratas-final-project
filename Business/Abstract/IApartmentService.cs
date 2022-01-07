@@ -15,5 +15,17 @@ namespace Business.Abstract
         IResult Add(Apartment apartment);
         IResult Update(Apartment apartment);
         IResult Delete(Apartment apartment);
+        
+        IDataResult<List<Apartment>> GetAllByBlank();
+        IDataResult<List<Apartment>> GetAllByActive();
+        IDataResult<List<Apartment>> GetAllByBlankAndActive();
+
+        IDataResult<int> BlankApartmentCount();
+        IDataResult<int> ActiveApartmentCount();
+
+      
+
+
+
     }
 }

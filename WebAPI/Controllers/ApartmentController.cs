@@ -84,14 +84,69 @@ namespace WebAPI.Controllers
         [HttpGet("getbyblank")]
         public IActionResult GetApartmentByBlank()
         {
-            return Ok(" blank Apartment getir");
+            var result = _apartmentService.GetAllByBlank();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
+
+
+        [HttpGet("getbyactive")]
+        public IActionResult GetApartmentByActive()
+        {
+            var result = _apartmentService.GetAllByActive();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
 
         [HttpGet("getbyblankactive")]
         public IActionResult GetApartmentByBlankActive()
         {
-            return Ok(" blank and active Apartment getir");
+            var result = _apartmentService.GetAllByBlankAndActive();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
+
+
+
+
+        [HttpGet("getbyblankcount")]
+        public IActionResult GetBlankApartmentCount()
+        {
+            var result = _apartmentService.BlankApartmentCount();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+
+        [HttpGet("getbyactivecount")]
+        public IActionResult GetActiveApartmentCount()
+        {
+            var result = _apartmentService.ActiveApartmentCount();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
 
     }
 }
