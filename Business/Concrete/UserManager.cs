@@ -2,6 +2,7 @@
 using Business.Constant;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,13 +23,22 @@ namespace Business.Concrete
         {
             _userDal = userDal;
         }
-        
+
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
+
+            IResult result = BusinessRules.Run(CheckIfUserExists(user.IdentityNo));
+
+            if (result!=null)
+            {
+                return result;
+            }
             user.IDate = DateTime.Now;
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
+
+
         }
 
         public IResult Delete(User user)
@@ -65,5 +75,19 @@ namespace Business.Concrete
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
+
+        private IResult CheckIfUserExists(string identityNo)
+        {
+            var result = _userDal.GetAll(u => u.IdentityNo == identityNo).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.UserAlreadyExists);
+            }
+            return new SuccessResult();
+
+        }
+
     }
+
+
 }

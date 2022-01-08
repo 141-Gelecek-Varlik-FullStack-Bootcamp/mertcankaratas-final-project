@@ -24,8 +24,8 @@ namespace Business.Concrete
 
         public IDataResult<int> ActiveApartmentCount()
         {
-             var result = _apartmentDal.GetAll().FindAll(a => a.IsActive == true).Count();
-            if (result>0)
+            var result = _apartmentDal.GetAll((a => a.IsActive == true)).Count();
+            if (result > 0)
             {
 
                 return new SuccessDataResult<int>(result, Messages.ApartmentListed);
@@ -33,7 +33,7 @@ namespace Business.Concrete
 
             return new ErrorDataResult<int>(result, Messages.ActiveApartmentNotFound);
         }
-        
+
 
         [ValidationAspect(typeof(ApartmentValidator))]
         public IResult Add(Apartment apartment)
@@ -45,8 +45,8 @@ namespace Business.Concrete
 
         public IDataResult<int> BlankApartmentCount()
         {
-            var result = _apartmentDal.GetAll().FindAll(a => a.IsBlank == true).Count();
-            if (result>0)
+            var result = _apartmentDal.GetAll((a => a.IsBlank == true)).Count();
+            if (result > 0)
             {
 
                 return new SuccessDataResult<int>(result, Messages.ApartmentListed);
@@ -86,7 +86,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Apartment>> GetAllByBlank()
         {
-            var result = _apartmentDal.GetAll().FindAll(a => a.IsBlank == true);
+            var result = _apartmentDal.GetAll(a => a.IsBlank == true);
             if (result.Any())
             {
 
@@ -98,7 +98,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Apartment>> GetAllByBlankAndActive()
         {
-            var result = _apartmentDal.GetAll().FindAll(a => a.IsBlank == true && a.IsActive ==true)  ;
+            var result = _apartmentDal.GetAll(a => a.IsBlank == true && a.IsActive == true);
             if (result.Any())
             {
 
@@ -108,7 +108,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Apartment>>(result, Messages.BlankAndActiveApartmentNotFound);
         }
 
-     
+
 
         public IResult Update(Apartment apartment)
         {
