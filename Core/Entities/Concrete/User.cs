@@ -1,13 +1,12 @@
-﻿using Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Core.Entities.Concrete
 {
-   public class User:IEntity
+    public class User:IEntity
     {
         public int UserId { get; set; }
         public string IdentityNo { get; set; }
@@ -25,7 +24,5 @@ namespace Entities.Concrete
         public int? UUser { get; set; }
         public DateTime IDate { get; set; }
         public DateTime? UDate { get; set; }
-
-
     }
 }

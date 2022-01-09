@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Result;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Business.Abstract
 {
    public interface IApartmentService
     {
-        IDataResult<List<Apartment>> GetAll();
+        IDataResult<List<ApartmentDetailDto>> GetAll();
         IDataResult<Apartment> Get(int id);
         IResult Add(Apartment apartment);
         IResult Update(Apartment apartment);
