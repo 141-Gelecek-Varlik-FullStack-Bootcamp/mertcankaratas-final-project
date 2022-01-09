@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constant;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -35,7 +36,7 @@ namespace Business.Concrete
             return new ErrorDataResult<int>(result, Messages.ActiveApartmentNotFound);
         }
 
-
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(ApartmentValidator))]
         public IResult Add(Apartment apartment)
         {

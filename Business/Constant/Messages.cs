@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,5 +67,6 @@ namespace Business.Constant
         public static string InvoiceTypeUpdated = "Fatura tipi Güncellendi";
         public static string InvoiceTypeListed = "Fatura tipleri Listelendi";
 
+        public static User UserNotFound { get; internal set; }
     }
 }

@@ -69,6 +69,12 @@ namespace Business.Concrete
             return new ErrorDataResult<User>();
         }
 
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
+        }
+
         public IResult Update(User user)
         {
             user.UDate = DateTime.Now;

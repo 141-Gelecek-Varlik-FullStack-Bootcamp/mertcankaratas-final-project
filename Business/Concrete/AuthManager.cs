@@ -7,33 +7,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Utilities.Security.JWT;
+using Entities.DTOs;
+using Core.Utilities.Security.Hashing;
 
 namespace Business.Concrete
 {
     public class AuthManager : IAuthService
     {
-        IUserService _userService;
+        private IUserService _userService;
+        private ITokenHelper _tokenHelper;
 
-        public AuthManager(IUserService userService)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
         {
             _userService = userService;
+            _tokenHelper = tokenHelper;
         }
 
-        public IDataResult<User> Login(User user)
+        public IDataResult<AccessToken> CreateAccessToken(User user)
         {
-            var userToCheckEmail = _userService.GetByMail(user.Email);
-            if (userToCheckEmail.Success)
-            {
+            var claims = _userService.GetClaims(user);
+            var accessToken = _tokenHelper.CreateToken(user, claims.Data);
+            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+        }
 
-                if (userToCheckEmail.Data.Email.Equals(user.Email) && userToCheckEmail.Data.Password.Equals(user.Password))
-                {
-                    user.UserId = userToCheckEmail.Data.UserId;
-                    user.Type = userToCheckEmail.Data.Type;
-                    return new SuccessDataResult<User>(Messages.UserRegistered);
-                }
+        //public IDataResult<User> Login(User user)
+        //{
+        //    var userToCheckEmail = _userService.GetByMail(user.Email);
+        //    if (userToCheckEmail.Success)
+        //    {
+
+        //        if (userToCheckEmail.Data.Email.Equals(user.Email) && userToCheckEmail.Data.Password.Equals(user.Password))
+        //        {
+        //            user.UserId = userToCheckEmail.Data.UserId;
+        //            user.Type = userToCheckEmail.Data.Type;
+        //            return new SuccessDataResult<User>(Messages.UserRegistered);
+        //        }
+        //    }
+
+        //    return new ErrorDataResult<User>(Messages.CheckEmailOrPassword);
+        //}
+
+        public IDataResult<User> Login(UserForLoginDto userForLoginDto)
+        {
+            var userToCheck = _userService.GetByMail(userForLoginDto.Email);
+            if (userToCheck == null)
+            {
+                return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
-            return new ErrorDataResult<User>(Messages.CheckEmailOrPassword);
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))
+            {
+                return new ErrorDataResult<User>(Messages.PasswordError);
+            }
+
+            return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessfulLogin);
+        }
+
+        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            var user = new User
+            {
+                Email = userForRegisterDto.Email,
+                Name = userForRegisterDto.FirstName,
+                LastName = userForRegisterDto.LastName,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                
+            };
+            _userService.Add(user);
+            return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,15 +22,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(User user)
+        public ActionResult Login(UserForLoginDto userForLoginDto)
         {
-            var result = _authService.Login(user);
-            if (result.Success)
+            var userToLogin = _authService.Login(userForLoginDto);
+            if (!userToLogin.Success)
             {
-                return Ok(result);
+                return BadRequest(userToLogin.Message);
             }
 
-            return BadRequest(result);
+            var result = _authService.CreateAccessToken(userToLogin.Data);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return BadRequest(result.Message);
         }
     }
 }
