@@ -20,7 +20,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(a => a.FloorNo).NotEmpty();
             RuleFor(a => a.DoorNo).NotEmpty();
             RuleFor(a => a.ApartmentType).NotEmpty();
-            RuleFor(a => a.IsBlank).NotEmpty();
+            
             RuleFor(a => a.IUser).NotEmpty();
   
         }

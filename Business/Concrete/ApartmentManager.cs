@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constant;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
@@ -37,6 +38,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
+        [CacheRemoveAspect("IApartmentService.Get")]
         [ValidationAspect(typeof(ApartmentValidator))]
         public IResult Add(Apartment apartment)
         {
@@ -57,6 +59,7 @@ namespace Business.Concrete
             return new ErrorDataResult<int>(result, Messages.BlankApartmentNotFound);
         }
 
+        [CacheRemoveAspect("IApartmentService.Get")]
         public IResult Delete(Apartment apartment)
         {
             apartment.UDate = DateTime.Now;
@@ -64,11 +67,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ApartmentDeleted);
         }
 
+        [CacheAspect]
         public IDataResult<Apartment> Get(int id)
         {
             return new SuccessDataResult<Apartment>(_apartmentDal.Get(a => a.ApartmentId == id));
         }
 
+        [CacheAspect]
         public IDataResult<List<ApartmentDetailDto>> GetAll()
         {
             return new SuccessDataResult<List<ApartmentDetailDto>>(_apartmentDal.GetApartmentDetails(), Messages.ApartmentListed);
