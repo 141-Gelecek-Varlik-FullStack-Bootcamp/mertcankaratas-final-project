@@ -17,19 +17,19 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (ApartmentDBContext context = new ApartmentDBContext())
             {
-                var result = from u in context.Users
-                             join a in context.Apartments
-                             on u.UserId equals a.OwnerId
-                             join d in context.Duess
-                             on a.DuesId equals d.DuesId
-                             from utenant in context.Apartments
-                             join ut in context.Users
-                             on utenant.TenantId equals ut.UserId
+                var result = from a in context.Apartments
+                             join u in context.Users
+                             on a.OwnerId equals u.UserId
+                             join us in context.Users
+                             on a.TenantId equals us.UserId
+                                
+                           
+                           
                              select new ApartmentDetailDto
                              {
                                  ApartmentId = a.ApartmentId,
-                                 OwnerName = $"{u.Name} {u.LastName}",
-                                 TenantName = $"{ut.Name} {ut.LastName}",
+                                 OwnerName = $"{u.FirstName} {u.LastName}",
+                                 TenantName = $"{us.FirstName} {us.LastName}",
                                  BlockNo = a.BlockNo,
                                  FloorNo = a.FloorNo,
                                  DoorNo = a.DoorNo,

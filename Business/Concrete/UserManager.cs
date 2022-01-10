@@ -35,6 +35,8 @@ namespace Business.Concrete
                 return result;
             }
             user.IDate = DateTime.Now;
+            user.IsActive = true;
+            user.IsDeleted = false;
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
 
@@ -61,7 +63,7 @@ namespace Business.Concrete
         public IDataResult<User> GetByMail(string email)
         {
             var result = _userDal.Get(u => u.Email == email);
-            if (email != null && result != null)
+            if (email != null && result!=null)
             {
 
                 return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));

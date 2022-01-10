@@ -31,22 +31,6 @@ namespace Business.Concrete
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
 
-        //public IDataResult<User> Login(User user)
-        //{
-        //    var userToCheckEmail = _userService.GetByMail(user.Email);
-        //    if (userToCheckEmail.Success)
-        //    {
-
-        //        if (userToCheckEmail.Data.Email.Equals(user.Email) && userToCheckEmail.Data.Password.Equals(user.Password))
-        //        {
-        //            user.UserId = userToCheckEmail.Data.UserId;
-        //            user.Type = userToCheckEmail.Data.Type;
-        //            return new SuccessDataResult<User>(Messages.UserRegistered);
-        //        }
-        //    }
-
-        //    return new ErrorDataResult<User>(Messages.CheckEmailOrPassword);
-        //}
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
@@ -70,15 +54,27 @@ namespace Business.Concrete
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
             {
+                IdentityNo = userForRegisterDto.IdentityNo,
                 Email = userForRegisterDto.Email,
-                Name = userForRegisterDto.FirstName,
+                FirstName = userForRegisterDto.FirstName,
                 LastName = userForRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                Plaka = userForRegisterDto.Plaka,
+                IUser = userForRegisterDto.IUser
                 
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
+        }
+
+        public IResult UserExists(string email)
+        {
+            if (_userService.GetByMail(email).Success ==true)
+            {
+                return new ErrorResult(Messages.UserAlreadyExists);
+            }
+            return new SuccessResult();
         }
     }
 }

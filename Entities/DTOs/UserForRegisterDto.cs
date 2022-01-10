@@ -9,9 +9,12 @@ namespace Entities.DTOs
 {
     public class UserForRegisterDto : IDto
     {
+        public string IdentityNo { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string? Plaka { get; set; }
+        public int IUser { get; set; }
     }
 }
