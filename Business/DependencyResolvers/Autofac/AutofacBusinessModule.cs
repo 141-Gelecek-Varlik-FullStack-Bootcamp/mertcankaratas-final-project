@@ -7,6 +7,7 @@ using Core.Utilities.Interceptors;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using DataAccess.Concrete.MongoDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<DuesDal>().As<IDuesDal>().SingleInstance();
             builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
 
+            //MongoDb
+
+            builder.RegisterType<CreditCardManager>().As<ICreditCardService>().InstancePerDependency();
+            builder.RegisterType<DbClient>().As<IDbClient>().SingleInstance();
 
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 

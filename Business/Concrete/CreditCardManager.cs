@@ -23,13 +23,14 @@ namespace Business.Concrete
 
         public IResult AddCreditCard(CreditCard creditCard)
         {
+            creditCard.PayDate = DateTime.Now;
             _creditCard.InsertOne(creditCard);
             return new SuccessResult (Messages.PaymentSuccess);
         }
 
         public IDataResult<List<CreditCard>> GetCreditCards()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<CreditCard>> (_creditCard.Find(c => true).ToList());
         }
     }
 }
