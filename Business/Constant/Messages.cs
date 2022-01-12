@@ -66,7 +66,18 @@ namespace Business.Constant
         public static string InvoiceTypeDeleted = "Fatura tipi Silindi.";
         public static string InvoiceTypeUpdated = "Fatura tipi Güncellendi";
         public static string InvoiceTypeListed = "Fatura tipleri Listelendi";
+        
+        
+        
+        public static string PaymentSuccess="Ödeme Başarı ile Gerçekleşti";
+        public static string PaymentFailed="Ödeme Gerçekleşemedi Lütfen Bilgilerinizi Kontrol Ediniz";
+        public static string PaymentList = "Ödemeler Listelendi";
 
-        public static User UserNotFound { get; internal set; }
+        public static string UserNotFound = "Kullanıcı Bulunumadı.";
+
+        public static string MailSend="Mail Başarı ile Gönderildi";
+        public static string MailDelete = "Mail Silindi";
+        public static string MailList = "Mailler Listelendi";
+        public static string MailUpdate = "Mail okundu";
     }
 }
