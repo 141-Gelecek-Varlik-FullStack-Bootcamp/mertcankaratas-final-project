@@ -22,14 +22,14 @@ namespace DataAccess.Concrete.EntityFramework
                              on a.OwnerId equals u.UserId
                              join us in context.Users
                              on a.TenantId equals us.UserId
-                                
+                            
                            
                            
                              select new ApartmentDetailDto
                              {
                                  ApartmentId = a.ApartmentId,
                                  OwnerName = $"{u.FirstName} {u.LastName}",
-                                 TenantName = $"{us.FirstName} {us.LastName}",
+                                 TenantName = $"{us.FirstName} { us.LastName }",
                                  BlockNo = a.BlockNo,
                                  FloorNo = a.FloorNo,
                                  DoorNo = a.DoorNo,
