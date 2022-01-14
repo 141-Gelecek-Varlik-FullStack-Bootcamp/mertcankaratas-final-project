@@ -12,11 +12,13 @@ namespace Entities.Concrete
         public int MailId { get; set; }
         public string FromMail { get; set; }
         public string ToMail { get; set; }
+        public string Subject { get; set; }
         public string Body { get; set; }
         public bool IsNew { get; set; }
         public bool IsRead { get; set; }
         public bool IsDelete { get; set; }
         public DateTime SendDate { get; set; }
+        public DateTime OpenDate { get; set; }
         
     }
 }

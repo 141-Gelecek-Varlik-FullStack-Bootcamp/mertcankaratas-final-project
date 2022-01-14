@@ -26,5 +26,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<InvoiceType> InvoiceTypes { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<Mail> Mails{ get; set; }
     }
 }

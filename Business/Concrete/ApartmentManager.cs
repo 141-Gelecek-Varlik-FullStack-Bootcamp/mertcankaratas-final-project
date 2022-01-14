@@ -37,12 +37,14 @@ namespace Business.Concrete
             return new ErrorDataResult<int>(result, Messages.ActiveApartmentNotFound);
         }
 
-        [SecuredOperation("admin")]
+       // [SecuredOperation("admin")]
         [CacheRemoveAspect("IApartmentService.Get")]
-        [ValidationAspect(typeof(ApartmentValidator))]
+     //   [ValidationAspect(typeof(ApartmentValidator))]
         public IResult Add(Apartment apartment)
         {
             apartment.IDate = DateTime.Now;
+            apartment.IUser = 1;
+            apartment.IsDeleted = false;
             _apartmentDal.Add(apartment);
             return new SuccessResult(Messages.ApartmentAdded);
         }

@@ -24,7 +24,10 @@ namespace Business.Concrete
         [ValidationAspect(typeof(DuesValidator))]
         public IResult Add(Dues dues)
         {
+            dues.IUser = 1;
             dues.IDate = DateTime.Now;
+            dues.IsActive = true;
+            dues.IsDeleted = false;
             _duesDal.Add(dues);
             return new SuccessResult(Messages.DuesAdded);
         }

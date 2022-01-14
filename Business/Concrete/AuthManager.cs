@@ -58,11 +58,11 @@ namespace Business.Concrete
                 Email = userForRegisterDto.Email,
                 FirstName = userForRegisterDto.FirstName,
                 LastName = userForRegisterDto.LastName,
+                Password=userForRegisterDto.Password,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Plaka = userForRegisterDto.Plaka,
-                IUser = userForRegisterDto.IUser
-                
+                IUser = 1
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
