@@ -48,8 +48,9 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessfulLogin);
         }
 
-        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
+        public IResult Register(UserForRegisterDto userForRegisterDto, string password)
         {
+            
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
@@ -64,8 +65,9 @@ namespace Business.Concrete
                 Plaka = userForRegisterDto.Plaka,
                 IUser = 1
             };
+           
             _userService.Add(user);
-            return new SuccessDataResult<User>(user, Messages.UserRegistered);
+            return new SuccessResult(Messages.UserRegistered);
         }
 
         public IResult UserExists(string email)

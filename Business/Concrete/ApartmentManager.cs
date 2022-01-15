@@ -75,7 +75,8 @@ namespace Business.Concrete
             return new SuccessDataResult<Apartment>(_apartmentDal.Get(a => a.ApartmentId == id));
         }
 
-        [CacheAspect]
+        //[CacheAspect]
+        [CacheRemoveAspect("IAparmentService.GetAll")]
         public IDataResult<List<ApartmentDetailDto>> GetAll()
         {
             return new SuccessDataResult<List<ApartmentDetailDto>>(_apartmentDal.GetApartmentDetails(), Messages.ApartmentListed);

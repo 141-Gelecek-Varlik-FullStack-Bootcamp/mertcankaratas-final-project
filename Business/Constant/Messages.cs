@@ -32,7 +32,7 @@ namespace Business.Constant
         public static string ProductNameAlreadyExists = "Bu isimde zaten başka bir ürün var";
         public static string CategoryLimitExceded = "Categori limit aşıldı";
         public static string AuthorizationDenied = "Bu işlemi gerçekleştirmek için Yetkiniz yok";
-        public static string UserRegistered = "giriş yapıldı";
+        public static string UserRegistered = "Kullanıcı kayıt işlem yapıldı.";
         public static string PasswordError = "parola hatası";
         public static string LoginRequired = "Bu işlemi gerçekleştirmek için Lütfen giriş yapınız";
         public static string SuccessfulLogin = "başarılı giriş";
@@ -79,5 +79,6 @@ namespace Business.Constant
         public static string MailDelete = "Mail Silindi";
         public static string MailList = "Mailler Listelendi";
         public static string MailUpdate = "Mail okundu";
+        public static string BlockNotFound = "Girdiğiniz Derğerleri kontrol ediniz";
     }
 }

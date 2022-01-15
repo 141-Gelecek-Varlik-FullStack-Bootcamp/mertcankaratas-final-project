@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Result;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,6 @@ namespace Business.Abstract
         IResult Update(Payment payment);
         IResult Delete(Payment payment);
 
-        IResult MultipleAdd(string blockNo, decimal paymentAmount, int InvoiceId);
+        IResult MultipleAdd(MultipleAddDto multipleAdd);
     }
 }

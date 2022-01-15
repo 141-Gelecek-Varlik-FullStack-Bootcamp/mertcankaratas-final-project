@@ -5,6 +5,7 @@ using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace Business.Concrete
     {
         IPaymentDal _paymentDal;
         IApartmentService _apartmentService;
-        public PaymentManager(IPaymentDal paymentDal,IApartmentService apartmentService)
+        public PaymentManager(IPaymentDal paymentDal, IApartmentService apartmentService)
         {
             _paymentDal = paymentDal;
             _apartmentService = apartmentService;
         }
-       
+
         //[ValidationAspect(typeof(InvoiceTypeValidator))]
         public IResult Add(Payment payment)
         {
@@ -33,42 +34,50 @@ namespace Business.Concrete
             return new SuccessResult(Messages.PaymentAdded);
         }
 
-        public IResult MultipleAdd(string blockNo,decimal paymentAmount,int InvoiceId)
+        public IResult MultipleAdd(MultipleAddDto multipleAdd)
         {
-            decimal perApartment = paymentAmount / _apartmentService.GetAllByBlockName(blockNo).Data.Count();
-            
-            List<Apartment> result = _apartmentService.GetAllByBlockName(blockNo).Data;
-            foreach (var item in result)
+
+            var apartmentCount = _apartmentService.GetAllByBlockName(multipleAdd.BlockNo).Data.Count();
+            if (apartmentCount > 0 && multipleAdd.PaymentAmount >0)
             {
-                if(item.TenantId != null)
-                {
-                    var payment = new Payment
-                    {
-                        UserId = (int)item.TenantId,
-                        ApartmentId = item.ApartmentId,
-                        InvoiceId = InvoiceId,
-                        Amount = perApartment
-                    };
 
-                    Add(payment);
-                }
-                else
+
+                decimal perApartment = multipleAdd.PaymentAmount / _apartmentService.GetAllByBlockName(multipleAdd.BlockNo).Data.Count();
+
+                List<Apartment> result = _apartmentService.GetAllByBlockName(multipleAdd.BlockNo).Data;
+                foreach (var item in result)
                 {
-                    var payment = new Payment
+                    if (item.TenantId != null)
                     {
-                        UserId = item.OwnerId,
-                        ApartmentId = item.ApartmentId,
-                        InvoiceId = InvoiceId,
-                        Amount = perApartment
-                    };
-                    Add(payment);
+                        var payment = new Payment
+                        {
+                            UserId = (int)item.TenantId,
+                            ApartmentId = item.ApartmentId,
+                            InvoiceId = multipleAdd.InvoiceId,
+                            Amount = perApartment
+                        };
+
+                        Add(payment);
+                    }
+                    else
+                    {
+                        var payment = new Payment
+                        {
+                            UserId = item.OwnerId,
+                            ApartmentId = item.ApartmentId,
+                            InvoiceId = multipleAdd.InvoiceId,
+                            Amount = perApartment
+                        };
+                        Add(payment);
+                    }
                 }
+                return new SuccessResult(Messages.PaymentAdded);
             }
-           
 
-            return new SuccessResult(Messages.PaymentAdded);
+            return new ErrorResult(Messages.BlockNotFound);
+           
         }
-    
+
 
 
 
@@ -88,14 +97,19 @@ namespace Business.Concrete
 
         public IDataResult<List<Payment>> GetAll()
         {
-            return new SuccessDataResult<List<Payment>>(_paymentDal.GetAll(),Messages.PaymentListed);
+            return new SuccessDataResult<List<Payment>>(_paymentDal.GetAll(), Messages.PaymentListed);
         }
 
         public IResult Update(Payment payment)
         {
+            var result = _paymentDal.Get(a => a.PaymentId == payment.PaymentId);
+
+            payment.IDate = result.IDate;
             payment.UDate = DateTime.Now;
+            payment.BillingDate = result.BillingDate;
+            payment.DueDate = result.DueDate;
             _paymentDal.Update(payment);
-            return new SuccessResult(Messages.PaymentDeleted);
+            return new SuccessResult(Messages.PaymentUpdated);
         }
     }
 }

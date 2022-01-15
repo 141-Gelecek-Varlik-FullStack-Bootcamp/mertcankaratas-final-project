@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -34,9 +35,9 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("multipleadd")]
-        public IActionResult MultiplePaymentAdd(string blockNo, decimal paymentAmount, int InvoiceId)
+        public IActionResult MultiplePaymentAdd(MultipleAddDto multipleAdd)
         {
-            var result = _paymentService.MultipleAdd(blockNo, paymentAmount, InvoiceId);
+            var result = _paymentService.MultipleAdd(multipleAdd);
             if (result.Success)
             {
                 return Ok(result);
