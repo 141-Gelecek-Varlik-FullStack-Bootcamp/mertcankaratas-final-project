@@ -117,7 +117,10 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Apartment>>(result, Messages.BlankAndActiveApartmentNotFound);
         }
 
-
+        public IDataResult<List<Apartment>> GetAllByBlockName(string blockNo)
+        {
+            return new SuccessDataResult<List<Apartment>>(_apartmentDal.GetAll(a=>a.BlockNo==blockNo), Messages.ApartmentListed);
+        }
 
         public IResult Update(Apartment apartment)
         {

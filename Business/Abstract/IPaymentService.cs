@@ -15,5 +15,7 @@ namespace Business.Abstract
         IResult Add(Payment payment);
         IResult Update(Payment payment);
         IResult Delete(Payment payment);
+
+        IResult MultipleAdd(string blockNo, decimal paymentAmount, int InvoiceId);
     }
 }

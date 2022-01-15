@@ -16,17 +16,62 @@ namespace Business.Concrete
     public class PaymentManager : IPaymentService
     {
         IPaymentDal _paymentDal;
-        public PaymentManager(IPaymentDal paymentDal)
+        IApartmentService _apartmentService;
+        public PaymentManager(IPaymentDal paymentDal,IApartmentService apartmentService)
         {
             _paymentDal = paymentDal;
+            _apartmentService = apartmentService;
         }
-        [ValidationAspect(typeof(InvoiceTypeValidator))]
+       
+        //[ValidationAspect(typeof(InvoiceTypeValidator))]
         public IResult Add(Payment payment)
         {
             payment.IDate = DateTime.Now;
+            payment.BillingDate = DateTime.Now;
+            payment.DueDate = DateTime.Now.AddDays(10);
             _paymentDal.Add(payment);
             return new SuccessResult(Messages.PaymentAdded);
         }
+
+        public IResult MultipleAdd(string blockNo,decimal paymentAmount,int InvoiceId)
+        {
+            decimal perApartment = paymentAmount / _apartmentService.GetAllByBlockName(blockNo).Data.Count();
+            
+            List<Apartment> result = _apartmentService.GetAllByBlockName(blockNo).Data;
+            foreach (var item in result)
+            {
+                if(item.TenantId != null)
+                {
+                    var payment = new Payment
+                    {
+                        UserId = (int)item.TenantId,
+                        ApartmentId = item.ApartmentId,
+                        InvoiceId = InvoiceId,
+                        Amount = perApartment
+                    };
+
+                    Add(payment);
+                }
+                else
+                {
+                    var payment = new Payment
+                    {
+                        UserId = item.OwnerId,
+                        ApartmentId = item.ApartmentId,
+                        InvoiceId = InvoiceId,
+                        Amount = perApartment
+                    };
+                    Add(payment);
+                }
+            }
+           
+
+            return new SuccessResult(Messages.PaymentAdded);
+        }
+    
+
+
+
 
         public IResult Delete(Payment payment)
         {

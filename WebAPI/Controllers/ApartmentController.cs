@@ -81,6 +81,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+
+        [HttpGet("getbyblockname")]
+        public IActionResult GetApartmentByBlockNAme(string blockNo)
+        {
+            var result = _apartmentService.GetAllByBlockName(blockNo);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+
+
         [HttpGet("getbyblank")]
         public IActionResult GetApartmentByBlank()
         {

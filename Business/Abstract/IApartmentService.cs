@@ -12,6 +12,8 @@ namespace Business.Abstract
    public interface IApartmentService
     {
         IDataResult<List<ApartmentDetailDto>> GetAll();
+
+        IDataResult<List<Apartment>> GetAllByBlockName(string blockNo);
         IDataResult<Apartment> Get(int id);
         IResult Add(Apartment apartment);
         IResult Update(Apartment apartment);

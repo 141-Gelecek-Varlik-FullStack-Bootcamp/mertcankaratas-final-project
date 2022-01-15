@@ -29,6 +29,19 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+
+        }
+
+
+        [HttpPost("multipleadd")]
+        public IActionResult MultiplePaymentAdd(string blockNo, decimal paymentAmount, int InvoiceId)
+        {
+            var result = _paymentService.MultipleAdd(blockNo, paymentAmount, InvoiceId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPut("update")]
