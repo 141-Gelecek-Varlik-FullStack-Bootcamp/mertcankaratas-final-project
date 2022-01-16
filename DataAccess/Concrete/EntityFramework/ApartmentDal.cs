@@ -21,10 +21,11 @@ namespace DataAccess.Concrete.EntityFramework
                              join u in context.Users
                              on a.OwnerId equals u.UserId
                              join us in context.Users
-                             on a.TenantId equals us.UserId
-                            
+                             on a.TenantId equals us.UserId  
                            
-                           
+
+
+
                              select new ApartmentDetailDto
                              {
                                  ApartmentId = a.ApartmentId,

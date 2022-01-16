@@ -30,6 +30,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ApartmentDal>().As<IApartmentDal>().SingleInstance();
             builder.RegisterType<DuesManager>().As<IDuesService>().SingleInstance();
             builder.RegisterType<DuesDal>().As<IDuesDal>().SingleInstance();
+            builder.RegisterType<MailManager>().As<IMailService>().SingleInstance();
+            builder.RegisterType<MailDal>().As<IMailDal>().SingleInstance();
             builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
 
             //MongoDb

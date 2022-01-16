@@ -11,6 +11,8 @@ namespace Business.Abstract
     public interface IMailService
     {
         IDataResult<List<Mail>> GetAll();
+        IDataResult<List<Mail>> InboxGetAll(string mail);
+        IDataResult<List<Mail>> SendGetAll(string mail);
         IDataResult<Mail> Get(string mail);
         IResult Add(Mail mail);
         IResult Update(Mail mail);

@@ -79,7 +79,11 @@ namespace Business.Concrete
 
         public IResult Update(User user)
         {
+            var result = _userDal.Get(u => u.UserId == user.UserId);
             user.UDate = DateTime.Now;
+            user.IDate = result.IDate;
+            user.PasswordHash = result.PasswordHash;
+            user.PasswordSalt = result.PasswordSalt;
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }

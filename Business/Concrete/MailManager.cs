@@ -22,6 +22,9 @@ namespace Business.Concrete
 
         public IResult Add(Mail mail)
         {
+            mail.SendDate = DateTime.Now;
+            mail.OpenDate = DateTime.Now;
+            mail.IsNew = true;
             _mailDal.Add(mail);
             return new SuccessResult(Messages.MailSend);
         }
@@ -36,12 +39,23 @@ namespace Business.Concrete
 
         public IDataResult<Mail> Get(string mail)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Mail>(_mailDal.Get(m => m.ToMail == mail));
         }
 
         public IDataResult<List<Mail>> GetAll()
         {
             return new SuccessDataResult<List<Mail>>(_mailDal.GetAll(), Messages.MailList);
+        }
+
+        public IDataResult<List<Mail>> InboxGetAll(string mail)
+        {
+
+            return new SuccessDataResult<List<Mail>>(_mailDal.GetAll(m=>m.ToMail==mail), Messages.MailList);
+        }
+
+        public IDataResult<List<Mail>> SendGetAll(string mail)
+        {
+            return new SuccessDataResult<List<Mail>>(_mailDal.GetAll(m => m.FromMail == mail), Messages.MailList);
         }
 
         public IResult Update(Mail mail)

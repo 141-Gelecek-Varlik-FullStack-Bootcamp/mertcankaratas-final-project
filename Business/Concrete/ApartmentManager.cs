@@ -125,7 +125,11 @@ namespace Business.Concrete
 
         public IResult Update(Apartment apartment)
         {
+            var result = _apartmentDal.Get(a => a.ApartmentId == apartment.ApartmentId);
+
             apartment.UDate = DateTime.Now;
+            apartment.IDate = result.IDate;
+            apartment.UUser = 1;
             _apartmentDal.Update(apartment);
             return new SuccessResult(Messages.ApartmentUpdated);
         }
